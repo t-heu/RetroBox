@@ -30,11 +30,14 @@ export default function MegaDriveEmulator() {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
   const romUrlRef = useRef<string | null>(null)
-  const [selectedSystem, setSelectedSystem] = useState<System>(SYSTEMS[0]);
+  const [selectedSystem, setSelectedSystem] = useState<System>(SYSTEMS[2]);
+  const [iframeKey, setIframeKey] = useState(0)
 
   const startIframe = () => {
     if (!romUrlRef.current) return;
+
     const url = `/emulator.html?rom=${encodeURIComponent(romUrlRef.current)}&system=${selectedSystem.id}`;
+    
     iframeRef.current!.src = url;
     setIsPlaying(true);
   };
@@ -50,7 +53,27 @@ export default function MegaDriveEmulator() {
   }
 
   const handleReset = () => {
-    if (!romLoaded) return startIframe()
+    // para execução
+    setIsPlaying(false)
+
+    // limpa iframe
+    iframeRef.current!.src = "about:blank"
+    setIframeKey((prev) => prev + 1)
+
+    // limpa ROM
+    if (romUrlRef.current) {
+      URL.revokeObjectURL(romUrlRef.current)
+      romUrlRef.current = null
+    }
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+
+    // limpa estados
+    setRomLoaded(false)
+    setRomName("")
+    setError("")
   }
   
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,12 +93,27 @@ export default function MegaDriveEmulator() {
     const reader = new FileReader()
     reader.onload = (e) => {
       const buf = e.target?.result as ArrayBuffer
+
+      if (romUrlRef.current) {
+        URL.revokeObjectURL(romUrlRef.current)
+      }
+
       const blob = new Blob([buf], { type: "application/octet-stream" })
       romUrlRef.current = URL.createObjectURL(blob)
       setRomLoaded(true)
     }
 
     reader.readAsArrayBuffer(file)
+  }
+
+  const handleSystemChange = (systemName: string) => {
+    const sys = SYSTEMS.find(s => s.name === systemName)
+    if (!sys) return
+
+    // 🔥 reset total antes de trocar sistema
+    handleReset()
+
+    setSelectedSystem(sys)
   }
 
   const formatExtensions = (exts: string[]) => exts.join(" ")
@@ -101,6 +139,7 @@ export default function MegaDriveEmulator() {
 
           {/* IFRAME DO EMULADOR */}
           <iframe
+            key={iframeKey}
             ref={iframeRef}
             className="w-full aspect-4/3 bg-black rounded min-h-120"
             allow="fullscreen"
@@ -162,10 +201,7 @@ export default function MegaDriveEmulator() {
 
           <Select
             value={selectedSystem.name}
-            onValueChange={(value) => {
-              const sys = SYSTEMS.find(s => s.name === value)
-              if (sys) setSelectedSystem(sys)
-            }}
+            onValueChange={handleSystemChange}
           >
             <SelectTrigger
               className="
@@ -195,7 +231,7 @@ export default function MegaDriveEmulator() {
         <input
           ref={fileInputRef}
           type="file"
-          accept=".bin,.md,.gen,.smd"
+          accept={selectedSystem.validExtensions.join(",")}
           onChange={handleFileUpload}
           className="hidden"
         />

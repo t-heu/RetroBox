@@ -148,5 +148,95 @@ export const SYSTEMS: System[] = [
       ],
     },
   },
+  {
+    name: "Atari 2600",
+    id: "atari2600",
+    validExtensions: [".a26", ".bin"],
+    romSources: {
+      title: "🎮 ROMs Homebrew Gratuitas e Legais",
+      links: [
+        {
+          label: "AtariAge - Homebrew Atari 2600",
+          url: "https://atariage.com/forums/forum/65-atari-2600-homebrew/",
+        },
+        {
+          label: "PDRoms - Atari 2600",
+          url: "https://pdroms.de/atari2600",
+        },
+      ],
+    },
+  },
+  {
+    name: "Atari 5200",
+    id: "atari5200",
+    validExtensions: [".a52", ".bin"],
+    romSources: {
+      title: "🎮 ROMs Homebrew Gratuitas e Legais",
+      links: [
+        {
+          label: "AtariAge - Homebrew Atari 5200",
+          url: "https://atariage.com/forums/forum/66-atari-5200-homebrew/",
+        },
+        {
+          label: "PDRoms - Atari 5200",
+          url: "https://pdroms.de/atari5200",
+        },
+      ],
+    },
+  },
+  {
+    name: "Atari 7800",
+    id: "atari7800",
+    validExtensions: [".a78", ".bin"],
+    romSources: {
+      title: "🎮 ROMs Homebrew Gratuitas e Legais",
+      links: [
+        {
+          label: "AtariAge - Homebrew Atari 7800",
+          url: "https://atariage.com/forums/forum/67-atari-7800-homebrew/",
+        },
+        {
+          label: "PDRoms - Atari 7800",
+          url: "https://pdroms.de/atari7800",
+        },
+      ],
+    },
+  },
+  {
+    name: "Atari Lynx",
+    id: "lynx",
+    validExtensions: [".lnx", ".o"],
+    romSources: {
+      title: "🎮 ROMs Homebrew Gratuitas e Legais",
+      links: [
+        {
+          label: "AtariAge - Homebrew Atari Lynx",
+          url: "https://atariage.com/forums/forum/68-atari-lynx-homebrew/",
+        },
+        {
+          label: "PDRoms - Atari Lynx",
+          url: "https://pdroms.de/lynx",
+        },
+      ],
+    },
+  },
+  {
+    name: "Atari Jaguar",
+    id: "jaguar",
+    validExtensions: [".j64", ".jag", ".rom"],
+    romSources: {
+      title: "🎮 Homebrew Gratuitas e Legais",
+      links: [
+        {
+          label: "AtariAge - Homebrew Atari Jaguar",
+          url: "https://atariage.com/forums/forum/69-atari-jaguar-homebrew/",
+        },
+        {
+          label: "PDRoms - Atari Jaguar",
+          url: "https://pdroms.de/jaguar",
+        },
+      ],
+    },
+  },
   // adicione outros sistemas aqui...
 ];
